@@ -24,11 +24,11 @@ export class CambioHorarioController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCambioHorarioDto: UpdateCambioHorarioDto) {
-    return this.cambioHorarioService.update(+id, updateCambioHorarioDto);
+    return this.cambioHorarioService.update(id, updateCambioHorarioDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.cambioHorarioService.remove(+id);
+    return this.cambioHorarioService.remove(id);
   }
 }

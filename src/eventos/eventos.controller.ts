@@ -17,9 +17,9 @@ export class EventosController {
     return this.eventosService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.eventosService.findOne(+id);
+  @Get(':fecha')
+  findOne(@Param('fecha') fecha: Date) {
+    return this.eventosService.findOne(fecha);
   }
 
   @Patch(':id')

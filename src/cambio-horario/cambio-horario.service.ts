@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCambioHorarioDto } from './dto/create-cambio-horario.dto';
 import { UpdateCambioHorarioDto } from './dto/update-cambio-horario.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -27,14 +27,34 @@ export class CambioHorarioService {
   }
 
   findOne(id: number) {
+    const cambioHorarioId = this.cambioHorarioRepository.findById(id);
+    if (!cambioHorarioId) {
+      throw new NotFoundException(`No se encontró ningún cambio de horario con el id: ${id}`);
+    }
     return `This action returns a #${id} cambioHorario`;
   }
 
-  update(id: number, updateCambioHorarioDto: UpdateCambioHorarioDto) {
-    return `This action updates a #${id} cambioHorario`;
-  }
+ 
 
-  remove(id: number) {
-    return `This action removes a #${id} cambioHorario`;
+async update(id: string, updateCambioHorarioDto: UpdateCambioHorarioDto) {
+    const novedad = await this.cambioHorarioRepository.findByIdAndUpdate(
+      id,
+      { $set: updateCambioHorarioDto },
+      { new: true },           // devuelve el documento actualizado
+    );
+    if (!novedad) {
+      throw new NotFoundException(`Novedad con id ${id} no encontrada`);
+    }
+    return novedad;
+  
+}
+
+  async remove(id: string) {
+    const resultado = await this.cambioHorarioRepository.findByIdAndDelete(id);;
+    if (!resultado) {
+      throw new NotFoundException(`No se encontró ningún cambio de horario con el id: ${id}`);
+    }
+    return `Registro con id ${id} eliminado exitosamente`;
+
   }
 }

@@ -20,10 +20,17 @@ export class EventosService {
     return eventos;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} evento`;
+  async findOne(fecha: Date) {
+    if(fecha){
+      const evento = await this.eventoRepository.findOne({ fecha }).exec();
+      if(evento){
+        return evento;
+      }else{
+        throw new Error(`No se encontró ningún evento con la fecha original: ${fecha}`);
+      }
+    }
   }
-
+//añadir hora en la entidad y en el dto para poder buscar por fecha y hora
   update(id: number, updateEventoDto: UpdateEventoDto) {
     return `This action updates a #${id} evento`;
   }
