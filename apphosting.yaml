@@ -1,0 +1,9 @@
+kind: AppHostingConfiguration
+version: v1
+
+# Configuración de variables de entorno
+environmentVariables:
+  - name: MONGO_URI
+    secret: MONGODB_URI_SECRET
+  - name: GEMINI_API_KEY
+    secret: GEMINI_API_KEY_SECRET

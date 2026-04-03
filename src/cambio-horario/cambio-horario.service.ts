@@ -46,7 +46,6 @@ async update(id: string, updateCambioHorarioDto: UpdateCambioHorarioDto) {
       throw new NotFoundException(`Novedad con id ${id} no encontrada`);
     }
     return novedad;
-  
 }
 
   async remove(id: string) {

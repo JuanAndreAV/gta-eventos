@@ -12,8 +12,9 @@ export class AiController {
     return this.aiService.analizarDatos(prompt);
   }
 
-   
-
-  
+ /* @Post('analysis')
+  saveAnalysisResult(@Body('result') result: string) {
+    return this.aiService.saveAnalysisResult(result);
+  }*/
 
 }
