@@ -14,9 +14,9 @@ export class AiService {
   private model: any;
   private apiKey = process.env.GEMINI_API_KEY || '';
 
-  private date = new Date().toISOString().split("T")[0]; // Formato YYYY-MM-DD
+  //private date = new Date().toISOString().split("T")[0]; // Formato YYYY-MM-DD
 
-  private promptAi = "Actúa como un Coordinador Estratégico de la Casa de la Cultura con experiencia en análisis de datos educativos.Tu objetivo es analizar el Reporte de Inasistencias adjunto y proporcionar un diagnóstico ejecutivo. Por favor, genera un informe con los siguientes 4 puntos:Análisis de Retención vs. Abandono, diagnóstico de género, foco en cursos críticos y una acción de impacto concreta para mejorar la situación actual. Fecha del reporte: " + this.date
+  //private promptAi = "Actúa como un Coordinador Estratégico de la Casa de la Cultura con experiencia en análisis de datos educativos.Tu objetivo es analizar el Reporte de Inasistencias adjunto y proporcionar un diagnóstico ejecutivo. Por favor, genera un informe con los siguientes 4 puntos:Análisis de Retención vs. Abandono, diagnóstico de género, foco en cursos críticos y una acción de impacto concreta para mejorar la situación actual. Fecha del reporte: " + this.date
 
   constructor(
     @InjectModel(AiAnalysisResult.name)
@@ -28,11 +28,11 @@ export class AiService {
   async analizarDatos(prompt: string) {
       const ahora = new Date()
       const date = ahora.toISOString().split("T")[0]; // Formato YYYY-MM-DD
-      const promptAi = "Actúa como un Coordinador Estratégico de la Casa de la Cultura con experiencia en análisis de datos educativos.Tu objetivo es analizar el Reporte de Inasistencias adjunto y proporcionar un diagnóstico ejecutivo. Por favor, genera un informe con los siguientes 4 puntos:Análisis de Retención vs. Abandono, diagnóstico de género, foco en cursos críticos y una acción de impacto concreta para mejorar la situación actual. Fecha del reporte: " + this.date
+      const promptAi = "Actúa como un Coordinador Estratégico de la Casa de la Cultura con experiencia en análisis de datos educativos.Tu objetivo es analizar el Reporte de Inasistencias adjunto y proporcionar un diagnóstico ejecutivo. Por favor, genera un informe con los siguientes 4 puntos:Análisis de Retención vs. Abandono, diagnóstico de género, foco en cursos críticos y una acción de impacto concreta para mejorar la situación actual. Fecha del reporte: " + date
 
     try{
       const response = await this.model.generateContent(
-        `${this.promptAi}Datos: ${prompt} `
+        `${promptAi}Datos: ${prompt} `
       );
       const respuesta = response.response.text();
       await this.saveAnalysisResult(respuesta, ahora.getMonth() + 1, ahora.getFullYear());
