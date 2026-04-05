@@ -15,7 +15,7 @@ export class CambioHorarioService {
   async create(createCambioHorarioDto: CreateCambioHorarioDto) {
     if(createCambioHorarioDto){
       const cambioHorario = await this.cambioHorarioRepository.create(createCambioHorarioDto);
-      return `Registro creado exitosamente: ${cambioHorario}`;
+      return cambioHorario;
     }else{
       throw new Error('No se proporcionaron datos para crear el cambio de horario');
     }
