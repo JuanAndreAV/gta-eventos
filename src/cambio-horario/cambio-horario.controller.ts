@@ -22,6 +22,11 @@ export class CambioHorarioController {
     return this.cambioHorarioService.findOne(+id);
   }
 
+  @Get('estado/:estado')
+  async estado(@Param('estado') estado: string) {
+    return await this.cambioHorarioService.estado(estado);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateCambioHorarioDto: UpdateCambioHorarioDto) {
     return this.cambioHorarioService.update(id, updateCambioHorarioDto);

@@ -4,7 +4,7 @@ import { IsEnum, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCambioHorarioDto extends PartialType(CreateCambioHorarioDto) {
     @IsOptional()
-    @IsEnum(['Pendiente', 'Aprobado', 'Rechazado'])
+    @IsEnum(['pendiente', 'aprobado', 'rechazado'])
     estado?: string;
 
     @IsString()

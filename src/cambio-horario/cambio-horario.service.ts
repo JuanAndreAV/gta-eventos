@@ -25,6 +25,9 @@ export class CambioHorarioService {
   async findAll() {
     return await this.cambioHorarioRepository.find();
   }
+  async estado(estado: string) {
+    return await this.cambioHorarioRepository.find({estado: estado});
+  }
 
   findOne(id: number) {
     const cambioHorarioId = this.cambioHorarioRepository.findById(id);
@@ -54,6 +57,6 @@ async update(id: string, updateCambioHorarioDto: UpdateCambioHorarioDto) {
       throw new NotFoundException(`No se encontró ningún cambio de horario con el id: ${id}`);
     }
     return `Registro con id ${id} eliminado exitosamente`;
-
   }
+
 }
