@@ -7,6 +7,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { AiModule } from './ai/ai.module';
 import { CambioHorarioModule } from './cambio-horario/cambio-horario.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -32,7 +33,9 @@ EventosModule,
     
 AiModule,
     
-CambioHorarioModule
+CambioHorarioModule,
+    
+AuthModule
 ],
   controllers: [],
   providers: [],
