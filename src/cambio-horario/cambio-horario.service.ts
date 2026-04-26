@@ -12,6 +12,9 @@ export class CambioHorarioService {
     private readonly cambioHorarioRepository: Model<CambioHorario>
   ){}
 
+  private today = new Date();
+  
+
   async create(createCambioHorarioDto: CreateCambioHorarioDto) {
     if(createCambioHorarioDto){
       const cambioHorario = await this.cambioHorarioRepository.create(createCambioHorarioDto);
@@ -24,17 +27,45 @@ export class CambioHorarioService {
 
   async findAll() {
     return await this.cambioHorarioRepository.find();
-  }
+  };
+
   async estado(estado: string) {
     return await this.cambioHorarioRepository.find({estado: estado});
-  }
+  };
 
-  findOne(id: number) {
-    const cambioHorarioId = this.cambioHorarioRepository.findById(id);
+  async findOne(id: string) {
+    const cambioHorarioId = await this.cambioHorarioRepository.findById(id);
     if (!cambioHorarioId) {
       throw new NotFoundException(`No se encontró ningún cambio de horario con el id: ${id}`);
     }
     return `This action returns a #${id} cambioHorario`;
+  }
+
+  async findByDate(){
+   const hoy = new Date();
+
+  const inicioDia = new Date(hoy);
+  inicioDia.setUTCHours(0, 0, 0, 0);
+
+  const finDia = new Date(hoy);
+  finDia.setUTCHours(23, 59, 59, 999);
+
+  const rango = { $gte: inicioDia, $lte: finDia };
+  
+
+    const cambioHorarioPorFecha = await this.cambioHorarioRepository.find({
+      
+      $or: [
+        { fechaOriginal: rango },
+        { nuevaFecha: rango },
+        { fechaInicioIncapacidad: rango },
+        { fechaFinIncapacidad: rango }
+      ]
+    });
+    if(cambioHorarioPorFecha.length === 0){
+      throw new NotFoundException(`No se encontraron cambios de horario para la fecha de hoy: ${hoy.toISOString().split('T')[0]}`);
+    }
+    return cambioHorarioPorFecha;
   }
 
  
