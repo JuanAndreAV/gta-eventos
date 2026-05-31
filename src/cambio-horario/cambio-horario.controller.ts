@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Query, Delete } from '@nestjs/common';
 import { CambioHorarioService } from './cambio-horario.service';
 import { CreateCambioHorarioDto } from './dto/create-cambio-horario.dto';
 import { UpdateCambioHorarioDto } from './dto/update-cambio-horario.dto';
@@ -21,6 +21,14 @@ export class CambioHorarioController {
     return this.cambioHorarioService.findByDate();
   }
 
+  @Get('metricas')
+async obtenerMetricas(@Query('mes') mes: string) {
+  // Si no envían mes, por defecto toma el mes actual
+  const mesNum =  mes ? parseInt(mes, 10) : new Date().getMonth() + 1;
+  
+  return this.cambioHorarioService.obtenerMetricasMensuales(mesNum);
+}
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.cambioHorarioService.findOne(id);
@@ -42,4 +50,6 @@ export class CambioHorarioController {
   remove(@Param('id') id: string) {
     return this.cambioHorarioService.remove(id);
   }
+
+
 }

@@ -90,4 +90,57 @@ async update(id: string, updateCambioHorarioDto: UpdateCambioHorarioDto) {
     return `Registro con id ${id} eliminado exitosamente`;
   }
 
+
+  // metricas
+
+  async obtenerMetricasMensuales(mes: number) {
+  
+  const anioActual = new Date().getFullYear(); 
+  const fechaInicio = new Date(anioActual, mes - 1, 1);
+  const fechaFin = new Date(anioActual, mes, 0, 23, 59, 59, 999);
+
+  return this.cambioHorarioRepository.aggregate([
+    {
+      $match: {
+    $or: [
+      {
+        fechaOriginal: {
+          $gte: fechaInicio,
+          $lte: fechaFin
+        }
+      },
+      {
+        fechaInicioIncapacidad: {
+          $gte: fechaInicio,
+          $lte: fechaFin
+        }
+      }
+    ]
+  }
+    },
+    {
+      $group: {
+        _id: { $trim: { input: '$nombreDocente' } },
+        totalNovedades: { $sum: 1 },
+        cambiosHorario: {
+          $sum: { $cond: [{ $eq: ['$tipoNovedad', 'cambio_horario'] }, 1, 0] }
+        },
+        incapacidades: {
+          $sum: { $cond: [{ $eq: ['$tipoNovedad', 'incapacidad'] }, 1, 0] }
+        }
+      }
+    },
+    { $sort: { totalNovedades: -1 } },
+    {
+      $project: {
+        _id: 0,
+        nombreDocente: '$_id',
+        totalNovedades: 1,
+        cambiosHorario: 1,
+        incapacidades: 1
+      }
+    }
+  ]).exec();
+}
+
 }

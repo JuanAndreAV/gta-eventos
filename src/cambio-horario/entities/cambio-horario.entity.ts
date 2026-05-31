@@ -13,7 +13,7 @@ export enum EstadoNovedad {
 }
 @Schema({ timestamps: true })
 export class CambioHorario  {
-    @Prop({ required: true })
+    @Prop({ required: true , trim: true})
     nombreDocente: string;
 
     @Prop({ required: true })
