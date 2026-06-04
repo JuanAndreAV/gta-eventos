@@ -26,11 +26,11 @@ export class CambioHorarioService {
   }
 
   async findAll() {
-    return await this.cambioHorarioRepository.find();
+    return await this.cambioHorarioRepository.find().sort({ createdAt: -1 });
   };
 
   async estado(estado: string) {
-    return await this.cambioHorarioRepository.find({estado: estado});
+    return await this.cambioHorarioRepository.find({estado: estado}).sort({ createdAt: -1 });
   };
 
   async findOne(id: string) {
